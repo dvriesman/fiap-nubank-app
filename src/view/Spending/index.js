@@ -15,10 +15,21 @@ import {
 } from './styles';
 import Tabs from '../../components/Tabs';
 
-export default function Spending() {
-  return (
-    <SafeAreaView>
-      <Container />
-    </SafeAreaView>
-  );
+class Spending extends React.Component {
+  render() {
+    return (
+      <SafeAreaView>
+        <Container>
+          <Description
+            onPress={() => {
+              this.props.navigation.navigate('Main');
+            }}>
+            Teste
+          </Description>
+        </Container>
+      </SafeAreaView>
+    );
+  }
 }
+
+export default Spending;
