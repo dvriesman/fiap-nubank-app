@@ -5,6 +5,11 @@ O unicórnio escolhido foi o Nubank.
 Esse protótipo funcional adiciona uma funcionalidade de sumarização das contas por categoria
 num determinado período de tempo escolhido pelo usuário. 
 
+## Screenshots
+
+![Tela inicial](screenshot/tela_inicial.jpg)
+![Nova Feature](screenshot/tela_feature.jpg)
+
 # Pré-requisitos
 - linux
 - Android SDK
