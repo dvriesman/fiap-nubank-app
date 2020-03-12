@@ -52,6 +52,19 @@ export const Description = styled.Text`
   color: #333;
 `;
 
+export const CalendarElementRow = styled.View`
+  padding: 10px 0;
+  max-height: 80px;
+  margin: 0 20px;
+  background: #fff;
+  flex: 1;
+  flexDirection: row;
+`;
+
+export const CalendarColumn = styled.View`
+padding: 0 10px;
+`;
+
 export const ElementRow = styled.View`
   flex: 1;
   flexDirection: row;

@@ -16,10 +16,12 @@ import {
   SafeAreaView,
   Description,
   ElementRow,
+  CalendarElementRow,
   SimpleColumn,
+  CalendarColumn,
 } from './styles';
 import DatePicker from 'react-native-datepicker';
-import BACKENDAPI from '../../env';
+import {BACKENDAPI} from '../../env';
 
 class Spending extends React.Component {
   state = {list: []};
@@ -74,6 +76,7 @@ class Spending extends React.Component {
       initialDate: this.state.initialDate,
       finalDate: this.state.finalDate,
     };
+    console.log(`${BACKENDAPI}`);
 
     axios.post(`${BACKENDAPI}`, data).then(result => {
       this.setState({list: result.data.amountByCategoryList});
@@ -89,8 +92,9 @@ class Spending extends React.Component {
             <CardHeader>
               <Description>Despesas por categoria</Description>
             </CardHeader>
-            <ElementRow>
-              <SimpleColumn>
+            <CalendarElementRow>
+              <CalendarColumn>
+                <Text>Data Inicial</Text>
                 <DatePicker
                   style={{width: 200}}
                   date={this.state.initialDate} //initial date from state
@@ -120,8 +124,9 @@ class Spending extends React.Component {
                     });
                   }}
                 />
-              </SimpleColumn>
-              <SimpleColumn>
+              </CalendarColumn>
+              <CalendarColumn>
+                <Text>Data Final</Text>
                 <DatePicker
                   style={{width: 200}}
                   date={this.state.finalDate} //initial date from state
@@ -151,8 +156,8 @@ class Spending extends React.Component {
                     });
                   }}
                 />
-              </SimpleColumn>
-            </ElementRow>
+              </CalendarColumn>
+            </CalendarElementRow>
 
             <CardContent>
               <Card>
@@ -166,7 +171,9 @@ class Spending extends React.Component {
                             <Text>{l.category}</Text>
                           </SimpleColumn>
                           <SimpleColumn>
-                            <Text style={{textAlign: 'right'}}>{l.value}</Text>
+                            <Text style={{textAlign: 'right'}}>$ 
+                              {(Math.round(l.value * 100) / 100).toFixed(2)}
+                            </Text>
                           </SimpleColumn>
                         </ElementRow>
                       }
