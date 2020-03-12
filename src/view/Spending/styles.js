@@ -7,9 +7,6 @@ export const SafeAreaView = styled.SafeAreaView`
   background: #8b10ae;
 `;
 
-
-
-
 export const Container = styled.View`
   flex: 1;
   background: #8B10AE;
@@ -49,24 +46,18 @@ export const CardContent = styled.View`
   justify-content: center;
 `;
 
-export const Title = styled.Text`
-  font-size: 13px;
-  color: #999;
-`;
-
 export const Description = styled.Text`
   font-size: 32px;
   margin-top: 3px;
   color: #333;
 `;
 
-export const CardFooter = styled.View`
-  padding: 30px;
-  background: #eee;
-  border-radius: 4px;
+export const ElementRow = styled.View`
+  flex: 1;
+  flexDirection: row;
 `;
 
-export const Annotation = styled.Text`
-  font-size: 12px;
-  color: #333;
+
+export const SimpleColumn = styled.View`
+  flex: 1;
 `;
