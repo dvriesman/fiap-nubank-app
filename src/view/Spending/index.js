@@ -19,8 +19,7 @@ import {
   SimpleColumn,
 } from './styles';
 import DatePicker from 'react-native-datepicker';
-
-const BACKENDAPI = 'http://192.168.0.19:8080/listSpending';
+import BACKENDAPI from '../../env';
 
 class Spending extends React.Component {
   state = {list: []};
