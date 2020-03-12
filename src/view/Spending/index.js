@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import axios from 'axios';
 import {
@@ -18,6 +18,7 @@ import {
   ElementRow,
   SimpleColumn,
 } from './styles';
+import DatePicker from 'react-native-datepicker';
 
 const BACKENDAPI = 'http://192.168.0.19:8080/listSpending';
 
@@ -28,22 +29,57 @@ class Spending extends React.Component {
     self.props.navigation.navigate('Main');
   }
 
+  formatInitialDate(date) {
+    return (
+      date.getFullYear() +
+      '-' +
+      ('0' + (date.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + date.getDate()).slice(-2) +
+      ' 00:00:00'
+    );
+  }
+
+  formatFinalDate(date) {
+    return (
+      date.getFullYear() +
+      '-' +
+      ('0' + (date.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + date.getDate()).slice(-2) +
+      ' 23:59:59'
+    );
+  }
+
   componentDidMount() {
     handleAndroidBackButton(this.navigateBack, this);
 
+    const today = new Date();
+
+    const OneMothAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+    const iDate = this.formatInitialDate(OneMothAgo);
+    const fDate = this.formatFinalDate(today);
+
+    this.setState({initialDate: iDate, finalDate: fDate}, () => {
+      this.loadData();
+    });
+  }
+  componentWillUnmount() {
+    removeAndroidBackButtonHandler();
+  }
+
+  loadData() {
     const data = {
       username: 'denny',
-      initialDate: '2010-01-01 00:00:00',
-      finalDate: '2011-02-01 00:00:00',
+      initialDate: this.state.initialDate,
+      finalDate: this.state.finalDate,
     };
 
     axios.post(`${BACKENDAPI}`, data).then(result => {
       this.setState({list: result.data.amountByCategoryList});
       console.log(JSON.stringify(result.data));
     });
-  }
-  componentWillUnmount() {
-    removeAndroidBackButtonHandler();
   }
 
   render() {
@@ -54,6 +90,71 @@ class Spending extends React.Component {
             <CardHeader>
               <Description>Despesas por categoria</Description>
             </CardHeader>
+            <ElementRow>
+              <SimpleColumn>
+                <DatePicker
+                  style={{width: 200}}
+                  date={this.state.initialDate} //initial date from state
+                  mode="date" //The enum of date, datetime and time
+                  placeholder="Data Inicial"
+                  format="YYYY-MM-DD 00:00:00"
+                  minDate="1900-01-01"
+                  maxDate="2099-01-01"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  customStyles={{
+                    dateIcon: {
+                      position: 'absolute',
+                      left: 0,
+                      top: 4,
+                      marginLeft: 0,
+                    },
+                    dateInput: {
+                      marginLeft: 36,
+                    },
+                  }}
+                  onDateChange={date => {
+                    this.setState({initialDate: date}, () => {
+                      if (date !== undefined) {
+                        this.loadData();
+                      }
+                    });
+                  }}
+                />
+              </SimpleColumn>
+              <SimpleColumn>
+                <DatePicker
+                  style={{width: 200}}
+                  date={this.state.finalDate} //initial date from state
+                  mode="date" //The enum of date, datetime and time
+                  placeholder="Data Final"
+                  format="YYYY-MM-DD 23:59:59"
+                  minDate="1900-01-01"
+                  maxDate="2099-01-01"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  customStyles={{
+                    dateIcon: {
+                      position: 'absolute',
+                      left: 0,
+                      top: 4,
+                      marginLeft: 0,
+                    },
+                    dateInput: {
+                      marginLeft: 36,
+                    },
+                  }}
+                  onDateChange={date => {
+                    this.setState({finalDate: date}, () => {
+                      if (date !== undefined) {
+                        this.loadData();
+                      }
+                    });
+                  }}
+                />
+              </SimpleColumn>
+            </ElementRow>
+
             <CardContent>
               <Card>
                 <ScrollView>
